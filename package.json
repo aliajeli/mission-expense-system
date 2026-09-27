@@ -1,7 +1,7 @@
 {
   "name": "mission-expenses",
   "productName": "سامانه هزینه ماموریت",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "سامانه مدیریت و پیگیری هزینه‌های ماموریت اداری",
   "private": true,
   "main": "electron/main.js",
