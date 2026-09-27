@@ -4,6 +4,20 @@
 
 ![status](https://img.shields.io/badge/platform-Windows%20x64-blue) ![stack](https://img.shields.io/badge/stack-Next.js%20%2B%20Electron-black)
 
+## تصاویر برنامه
+
+| داشبورد | فهرست ماموریت‌ها |
+| --- | --- |
+| ![داشبورد](docs/screenshots/dashboard.png) | ![ماموریت‌ها](docs/screenshots/missions.png) |
+
+| تقویم شمسی با تعطیلات | گزارش بازه زمانی |
+| --- | --- |
+| ![تقویم](docs/screenshots/calendar.png) | ![گزارش](docs/screenshots/report.png) |
+
+| تنظیمات | حالت تیره |
+| --- | --- |
+| ![تنظیمات](docs/screenshots/settings.png) | ![تیره](docs/screenshots/dark.png) |
+
 ## دانلود
 
 آخرین نسخه را از بخش [Releases](../../releases/latest) دانلود کنید:

@@ -1,3 +1,5 @@
+import { toFaDigits } from './format';
+
 /**
  * تبدیل تاریخ شمسی (هجری خورشیدی) و میلادی - بدون وابستگی خارجی
  * پیاده‌سازی بر پایه الگوریتم استاندارد تقویم جلالی
@@ -180,7 +182,7 @@ export function daysBetween(startKey: string, endKey: string) {
 export function formatJalali(key: string, withWeekDay = false) {
   const d = parseKey(key);
   if (!d) return '—';
-  const base = `${d.jd} ${MONTHS[d.jm - 1]} ${d.jy}`;
+  const base = `${toFaDigits(d.jd)} ${MONTHS[d.jm - 1]} ${toFaDigits(d.jy)}`;
   if (!withWeekDay) return base;
   return `${WEEK_DAYS[jalaliWeekDay(d.jy, d.jm, d.jd)]} ${base}`;
 }
@@ -188,6 +190,13 @@ export function formatJalali(key: string, withWeekDay = false) {
 export function formatJalaliShort(key: string) {
   const d = parseKey(key);
   if (!d) return '—';
+  return toFaDigits(`${d.jy}/${String(d.jm).padStart(2, '0')}/${String(d.jd).padStart(2, '0')}`);
+}
+
+/** قالب عددی لاتین برای خروجی‌های داده‌ای (CSV) */
+export function formatJalaliPlain(key: string) {
+  const d = parseKey(key);
+  if (!d) return '';
   return `${d.jy}/${String(d.jm).padStart(2, '0')}/${String(d.jd).padStart(2, '0')}`;
 }
 

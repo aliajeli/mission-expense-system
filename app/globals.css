@@ -541,7 +541,7 @@ table.data th {
   font-size: 12px;
   color: var(--text-soft);
   background: var(--surface-2);
-  padding: 11px 14px;
+  padding: 10px 9px;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
   position: sticky;
@@ -549,11 +549,25 @@ table.data th {
   z-index: 1;
 }
 table.data td {
-  padding: 11px 14px;
+  padding: 9px 9px;
   border-bottom: 1px solid var(--border);
   vertical-align: middle;
 }
 table.data tbody tr:hover {
+  background: var(--surface-2);
+}
+table.data th:last-child,
+table.data td:last-child {
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+  box-shadow: 6px 0 12px -10px rgba(0, 0, 0, 0.35);
+}
+table.data th:last-child {
+  background: var(--surface-2);
+  z-index: 2;
+}
+table.data tbody tr:hover td:last-child {
   background: var(--surface-2);
 }
 table.data tfoot td {
@@ -564,6 +578,26 @@ table.data tfoot td {
 .num {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+table.data td.cell-subject {
+  min-width: 120px;
+  line-height: 1.6;
+}
+table.data td.cell-branch {
+  min-width: 76px;
+}
+table.data td.cell-date,
+table.data th.cell-date {
+  font-size: 12px;
+}
+.epm-codes {
+  direction: ltr;
+  text-align: right;
+  white-space: normal;
+  word-break: break-all;
+  font-size: 10.5px;
+  color: var(--text-mute);
+  letter-spacing: 0.2px;
 }
 .row-actions {
   display: flex;
@@ -698,10 +732,8 @@ table.data tfoot td {
   color: var(--text-mute);
 }
 .dp-pop {
-  position: absolute;
-  z-index: 40;
-  top: calc(100% + 6px);
-  inset-inline-start: 0;
+  position: fixed;
+  z-index: 80;
   width: 290px;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -709,10 +741,6 @@ table.data tfoot td {
   box-shadow: var(--shadow-lg);
   padding: 12px;
   animation: pop 0.14s ease;
-}
-.dp-pop.up {
-  top: auto;
-  bottom: calc(100% + 6px);
 }
 .dp-head {
   display: flex;

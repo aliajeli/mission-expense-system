@@ -9,7 +9,14 @@ import { Field, Switch } from '@/components/ui/Field';
 import { useApp } from '@/providers/AppProvider';
 import { computeTotals, filterMissions } from '@/lib/filters';
 import { MissionStatus, STATUS_LABEL, STATUS_ORDER, missionTotal, transportTotal } from '@/lib/types';
-import { daysBetween, formatJalali, formatJalaliShort, todayJalali, toKey } from '@/lib/jalali';
+import {
+  daysBetween,
+  formatJalali,
+  formatJalaliPlain,
+  formatJalaliShort,
+  todayJalali,
+  toKey,
+} from '@/lib/jalali';
 import { formatMoney, toFaDigits } from '@/lib/format';
 import { getApi } from '@/lib/bridge';
 import { IconDownload, IconPrint } from '@/components/ui/Icons';
@@ -39,8 +46,8 @@ export default function ReportView() {
         i + 1,
         m.branch,
         m.subject,
-        formatJalaliShort(m.startDate),
-        formatJalaliShort(m.endDate),
+        formatJalaliPlain(m.startDate),
+        formatJalaliPlain(m.endDate),
         daysBetween(m.startDate, m.endDate),
       ];
       return withCosts
@@ -50,7 +57,11 @@ export default function ReportView() {
     const body = [head, ...rows]
       .map((r) => r.map((c) => `"${String(c ?? '').replace(/"/g, '""')}"`).join(','))
       .join('\r\n');
-    exportText(`گزارش-ماموریت-${formatJalaliShort(from)}-تا-${formatJalaliShort(to)}.csv`, body, 'csv');
+    exportText(
+      `report-${formatJalaliPlain(from).replace(/\//g, '')}-${formatJalaliPlain(to).replace(/\//g, '')}.csv`,
+      body,
+      'csv',
+    );
   };
 
   return (
@@ -147,8 +158,8 @@ export default function ReportView() {
                   {list.map((m, i) => (
                     <tr key={m.id}>
                       <td className="num muted">{toFaDigits(i + 1)}</td>
-                      <td className="nowrap">{m.branch}</td>
-                      <td>{m.subject}</td>
+                      <td className="nowrap cell-branch">{m.branch}</td>
+                      <td className="cell-subject">{m.subject}</td>
                       <td className="num">{formatJalaliShort(m.startDate)}</td>
                       <td className="num">{formatJalaliShort(m.endDate)}</td>
                       <td className="num">{toFaDigits(daysBetween(m.startDate, m.endDate))}</td>

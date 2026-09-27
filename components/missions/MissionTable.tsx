@@ -51,11 +51,10 @@ export default function MissionTable({
       <table className="data">
         <thead>
           <tr>
-            <th>#</th>
             <th>شعبه</th>
             <th>موضوع</th>
-            <th>شروع</th>
-            <th>پایان</th>
+            <th className="cell-date">شروع</th>
+            <th className="cell-date">پایان</th>
             <th>روز</th>
             <th>ایاب و ذهاب</th>
             <th>غذا</th>
@@ -66,22 +65,21 @@ export default function MissionTable({
           </tr>
         </thead>
         <tbody>
-          {missions.map((m, i) => {
+          {missions.map((m) => {
             const docs = (m.docs?.transport?.length || 0) + (m.docs?.food?.length || 0);
             return (
               <tr key={m.id}>
-                <td className="num muted">{toFaDigits(i + 1)}</td>
-                <td className="nowrap">{m.branch}</td>
-                <td>
+                <td className="nowrap cell-branch">{m.branch}</td>
+                <td className="cell-subject">
                   {m.subject}
                   {m.epmFoodCode || m.epmTransportCode ? (
-                    <div className="muted" style={{ fontSize: 11 }}>
-                      EPM: {m.epmTransportCode || '—'} / {m.epmFoodCode || '—'}
+                    <div className="epm-codes">
+                      {m.epmTransportCode || '—'} / {m.epmFoodCode || '—'}
                     </div>
                   ) : null}
                 </td>
-                <td className="num">{formatJalaliShort(m.startDate)}</td>
-                <td className="num">{formatJalaliShort(m.endDate)}</td>
+                <td className="num cell-date">{formatJalaliShort(m.startDate)}</td>
+                <td className="num cell-date">{formatJalaliShort(m.endDate)}</td>
                 <td className="num">{toFaDigits(daysBetween(m.startDate, m.endDate))}</td>
                 <td className="num">{formatMoney(transportTotal(m))}</td>
                 <td className="num">{formatMoney(m.costFood)}</td>
@@ -102,7 +100,7 @@ export default function MissionTable({
                         title="ثبت در EPM"
                         onClick={() => onEpm(m)}
                       >
-                        <IconEpm size={14} /> ثبت در EPM
+                        <IconEpm size={14} /> EPM
                       </button>
                     ) : null}
                     {m.status === 'uploaded' ? (
@@ -111,7 +109,7 @@ export default function MissionTable({
                         title="ثبت پرداخت"
                         onClick={() => onPaid(m)}
                       >
-                        <IconCheck size={14} /> پرداخت شد
+                        <IconCheck size={14} /> پرداخت
                       </button>
                     ) : null}
                     <button className="btn btn-ghost btn-icon" title="ویرایش" onClick={() => onEdit(m)}>
@@ -128,7 +126,7 @@ export default function MissionTable({
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={5}>جمع کل ({toFaDigits(missions.length)} ماموریت)</td>
+            <td colSpan={4}>جمع کل ({toFaDigits(missions.length)} ماموریت)</td>
             <td className="num">{toFaDigits(sum.days)}</td>
             <td className="num">{formatMoney(sum.transport)}</td>
             <td className="num">{formatMoney(sum.food)}</td>
