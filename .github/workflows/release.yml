@@ -1,0 +1,65 @@
+name: Build & Release (Windows)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js (static export)
+        run: npm run build:next
+
+      - name: Build Windows installer & portable
+        run: npx electron-builder --win --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: |
+            release/*.exe
+            release/*.blockmap
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*.exe
+          generate_release_notes: true
+          body: |
+            ## سامانه هزینه ماموریت
+
+            فایل‌های قابل دانلود:
+
+            | فایل | توضیح |
+            | --- | --- |
+            | `MissionExpenses-Setup-x.y.z.exe` | نسخه نصبی (پیشنهادی) |
+            | `MissionExpenses-Portable-x.y.z.exe` | نسخه پرتابل، بدون نیاز به نصب |
+
+            سیستم‌عامل: ویندوز ۱۰ و ۱۱ (۶۴ بیتی)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

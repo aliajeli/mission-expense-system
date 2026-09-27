@@ -1,0 +1,47 @@
+appId: ir.missionexpenses.app
+productName: Mission Expenses
+executableName: MissionExpenses
+copyright: © 1405 Mission Expenses
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - electron/**/*
+  - out/**/*
+  - package.json
+  - '!**/*.map'
+  - '!**/*.ts'
+
+asar: true
+compression: maximum
+removePackageScripts: true
+buildDependenciesFromSource: false
+
+win:
+  icon: build/icon.png
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: سامانه هزینه ماموریت
+  deleteAppDataOnUninstall: false
+  artifactName: MissionExpenses-Setup-${version}.exe
+  installerLanguages:
+    - en_US
+  unicode: true
+
+portable:
+  artifactName: MissionExpenses-Portable-${version}.exe
+
+publish: null
